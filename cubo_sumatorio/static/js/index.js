@@ -3,7 +3,8 @@ var dimensionesCubo;
 var numeroOperaciones;
 var controlOperaciones;
 var notificacion;
-var controlCantCasos
+var controlCantCasos;
+var identCubo;
 
 
 function Cambia_entrada(){
@@ -45,12 +46,48 @@ function Enviar_Cubo(){
 		$('#dialog').dialog('open').css('font-weight', 'bold');	
 	}
 	else {
-		controlCantCasos = controlCantCasos + 1;
-		$( '#entrada' ).show();
-		$( "#N" ).prop( 'disabled',true );
-		$( "#M" ).prop( 'disabled',true );
-		$( "#enviaCubo" ).prop( 'disabled',true );
-		$( "html, body" ).animate({ scrollTop: $(document).height()-$(window).height() });
+		$.ajax({
+			type: 'POST',
+         	encoding: 'utf-8',
+         	url: '/cubo/',
+         	data: {
+         		'dimensiones': dimensionesCubo,
+			},
+            error: function (jqXHR, exception) {
+                if (jqXHR.status == 0) {
+                    alert('No hay conexión.\nPor favor verifique su conexión a internet.');
+                } 
+                else if (jqXHR.status == 404) {
+                    alert('La página requerida no fue encontrada[404].\nReintente más tarde.');
+                } 
+                else if (jqXHR.status == 500) {
+                    alert('Error interno del servidor [500].\nReintente más tarde.');
+                } 
+                else if (exception == 'parsererror') {
+                    alert('Requerimiento JSON no ha llegado al servidor.\nReintente más tarde.');
+                } 
+                else if (exception == 'timeout') {
+                    alert('Tiempo de espera agotado.');
+                } 
+                else if (exception == 'abort') {
+                    alert('Petición de ajax abortada.');
+                }
+                else {
+                    alert('Error desconocido.\n' + jqXHR.responseText);
+                }
+            },
+            success: function(msg){
+                if(msg.mensaje == true){
+                	controlCantCasos = controlCantCasos + 1;
+                	identCubo = msg.ide
+					$( '#entrada' ).show();
+					$( "#N" ).prop( 'disabled',true );
+					$( "#M" ).prop( 'disabled',true );
+					$( "#enviaCubo" ).prop( 'disabled',true );
+					$( "html, body" ).animate({ scrollTop: $(document).height()-$(window).height() });
+                }
+            }
+    	});
 	}
 }
 
@@ -83,13 +120,52 @@ function Enviar_Actualizacion(){
 		$('#dialog').dialog('open').css('font-weight', 'bold');
 	} 
 	else {
-		$("p.caption").html("Actualización realizada correctamente");
-		$('#dialog').dialog('open').css('font-weight', 'bold');
-		$( '#x' ).val('1');
-		$( '#y' ).val('1');
-		$( '#z' ).val('1');
-		$( '#W' ).val('1');
-		controlOperaciones = controlOperaciones + 1;
+		$.ajax({
+			type: 'POST',
+         	encoding: 'utf-8',
+         	url: '/cubo/actualizar/',
+         	data: {
+         		'ide':identCubo,
+         		'x': $( '#x' ).val(),
+         		'y': $( '#y' ).val(),
+         		'z': $( '#z' ).val(),
+         		'valor': $( '#W' ).val(),
+			},
+            error: function (jqXHR, exception) {
+                if (jqXHR.status == 0) {
+                    alert('No hay conexión.\nPor favor verifique su conexión a internet.');
+                } 
+                else if (jqXHR.status == 404) {
+                    alert('La página requerida no fue encontrada[404].\nReintente más tarde.');
+                } 
+                else if (jqXHR.status == 500) {
+                    alert('Error interno del servidor [500].\nReintente más tarde.');
+                } 
+                else if (exception == 'parsererror') {
+                    alert('Requerimiento JSON no ha llegado al servidor.\nReintente más tarde.');
+                } 
+                else if (exception == 'timeout') {
+                    alert('Tiempo de espera agotado.');
+                } 
+                else if (exception == 'abort') {
+                    alert('Petición de ajax abortada.');
+                }
+                else {
+                    alert('Error desconocido.\n' + jqXHR.responseText);
+                }
+            },
+            success: function(msg){
+                if(msg.mensaje == true){
+                	$("p.caption").html("Actualización realizada correctamente");
+					$('#dialog').dialog('open').css('font-weight', 'bold');
+					$( '#x' ).val('1');
+					$( '#y' ).val('1');
+					$( '#z' ).val('1');
+					$( '#W' ).val('1');
+					controlOperaciones = controlOperaciones + 1;	
+                }
+            }
+    	});
 	}
 }
 
@@ -130,9 +206,53 @@ function Enviar_Requerimiento(){
 		$('#dialog').dialog('open').css('font-weight', 'bold');
 	} 
 	else {
-		$( '#salida' ).show();
-		$( "html, body" ).animate({ scrollTop: $(document).height()-$(window).height() });
-		controlOperaciones = controlOperaciones + 1;
+		$.ajax({
+			type: 'POST',
+         	encoding: 'utf-8',
+         	url: '/cubo/requerir/',
+         	data: {
+         		'ide':identCubo,
+         		'x1': $( '#x1' ).val(),
+         		'x2': $( '#x2' ).val(),
+         		'y1': $( '#y1' ).val(),
+         		'y2': $( '#y2' ).val(),
+         		'z1': $( '#z1' ).val(),
+         		'z2': $( '#z2' ).val(),
+			},
+            error: function (jqXHR, exception) {
+                if (jqXHR.status == 0) {
+                    alert('No hay conexión.\nPor favor verifique su conexión a internet.');
+                } 
+                else if (jqXHR.status == 404) {
+                    alert('La página requerida no fue encontrada[404].\nReintente más tarde.');
+                } 
+                else if (jqXHR.status == 500) {
+                    alert('Error interno del servidor [500].\nReintente más tarde.');
+                } 
+                else if (exception == 'parsererror') {
+                    alert('Requerimiento JSON no ha llegado al servidor.\nReintente más tarde.');
+                } 
+                else if (exception == 'timeout') {
+                    alert('Tiempo de espera agotado.');
+                } 
+                else if (exception == 'abort') {
+                    alert('Petición de ajax abortada.');
+                }
+                else {
+                    alert('Error desconocido.\n' + jqXHR.responseText);
+                }
+            },
+            success: function(msg){
+                if(msg.mensaje == true){
+                	//$( "#salida" ).prop( 'disabled',false );
+                	$( '#salidas' ).val(msg.respuesta)
+           			$( '#salida' ).show();
+           			//$( "#salida" ).prop( 'disabled',true );
+					$( "html, body" ).animate({ scrollTop: $(document).height()-$(window).height() });
+					controlOperaciones = controlOperaciones + 1;     		
+                }
+            }
+    	});
 	}
 }
 

@@ -34,6 +34,7 @@
 						<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
 							<input type="number" class='onlyNumber' min='1' max='50' value='1' required name="T" id="T"/>
 						</div>
+						{% csrf_token %}
 	                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
 				            <button id='enviaCasos' type="button" class="btn btn-lg btn-success"> Enviar </button>
 				        </div>
@@ -58,6 +59,7 @@
 						</div>
 					</div>
 					<div class="row">
+						{% csrf_token %}
 						<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
 				            <button id ='enviaCubo' type="button" class="btn btn-lg btn-success"> Enviar </button>
 				        </div>
@@ -109,6 +111,7 @@
 							</div>
 						</div>
 						<div class="row">
+							{% csrf_token %}
 							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
 					            <button id ='enviaActualiza' type="button" class="btn btn-lg btn-success"> Enviar </button>
 					        </div>
@@ -158,6 +161,7 @@
 							</div>
 						</div>
 						<div class="row">
+							{% csrf_token %}
 							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
 					            <button id='enviaPeticion' type="button" class="btn btn-lg btn-success"> Enviar </button>
 					        </div>
