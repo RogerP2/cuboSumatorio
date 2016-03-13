@@ -1,24 +1,49 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+	<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 	<title style=display>Cubo Sumatorio</title>
 </head>
 <body>
-	<div class="container">
-    	<div class="row">
-        	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xl-12">
-            	<form id="principal" class="basic-form">
-            		<div class="row">				
+	<div class='container theme-showcase' role='main'>
+		<div class='jumbotron'>
+			<h1>Cubo Sumatorio</h1>
+			<p>
+				Solución al problema del cubo sumatorio propuesto en hackerrank, por favor ingrese los datos solicitados para ver su funcionamiento. 
+			</p>
+		</div>
+		<div class="container" >
+	        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xl-12">
+	        	<div class='container' id='cantCasos'>
+	        		<div class='page-header'> 
+						<h1>Cantidad de Casos de prueba.</h1>
+					</div>
+	        		<div class="row">			
 						<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
-							<label for="T">Casos de testeo (T)*:</label>
+							<label for="T">Número de casos de testeo (T)*:</label>
 						</div>
 						<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
 							<input type="number" class='onlyNumber' min='1' max='50' value='1' required name="T" id="T"/>
 						</div>
+	                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+				            <button id='enviaCasos' type="button" class="btn btn-lg btn-success"> Enviar </button>
+				        </div>
 					</div>
-					<div class="row">				
+				</div>
+				<div class="container" id='cubo' style='display:none;'>	
+					<div class='page-header'> 
+						<h1>Características del cubo y N. de operaciones.</h1>
+					</div>	
+					<div class="row">
 						<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
 							<label for="N">Dimensiones del cubo(N)*:</label>
 						</div>
@@ -29,12 +54,135 @@
 							<label for="M">Operaciones(M)*:</label>
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
-							<input type="number" class='onlyNumber' min='1' max='1000' value='1' required name="casos" id="casos"/>
+							<input type="number" class='onlyNumber' min='1' max='1000' value='1' required name="M" id="M"/>
 						</div>
 					</div>
-				</form>
+					<div class="row">
+						<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+				            <button id ='enviaCubo' type="button" class="btn btn-lg btn-success"> Enviar </button>
+				        </div>
+					</div>
+				</div>
+				<div class='container' id='entrada' style='display:none;'>
+					<div class='page-header'> 
+						<h1>Entradas.</h1>
+					</div>
+					<div class="row">	
+						<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+							<label for="entradas">Tipo de entrada: </label>
+						</div>
+						<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+							<select name="tipoEntrada" id="tipoEntrada" placeholder: "Seleccione Tipo entrada:">
+								<option value="" disabled selected>Seleccione su opcion</option>
+								<option value="1">UPDATE</option>
+								<option value="2">QUERY</option>	
+							</select>
+						</div>
+					</div>
+					<div id='actualiza' class='container' style='display:none;'>
+						<div class="row">
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<label for="x">Coordenada en x: </label>
+							</div>
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='1' value='1' required name='x' id='x'/>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<label for="y">Coordenada en y: </label>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='1' value='1' required name='y' id='y'/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<label for="z">Coordenada en z: </label>
+							</div>
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='1' value='1' required name='z' id='z'/>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<label for="W">Valor (W): </label>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='-1000000000' max='1000000000' value='1' required name='W' id='W'/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+					            <button id ='enviaActualiza' type="button" class="btn btn-lg btn-success"> Enviar </button>
+					        </div>
+						</div>
+					</div>
+					<div id='requiere' class='container' style='display:none;'>
+						<div class="row">
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<label for="x1">Coordenada inicial en x (x1): </label>
+							</div>
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='1' value='1' required name='x1' id='x1'/>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<label for="y1">Coordenada inicial en y (y1): </label>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='1' value='1' required name='y1' id='y1'/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<label for="z1">Coordenada inicial en z (z1): </label>
+							</div>
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='1' value='1' required name='z1' id='z1'/>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<label for="x2">Coordenada final en x (x2): </label>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='1' value='1' required name='x2' id='x2'/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<label for="y2">Coordenada final en y (y2): </label>
+							</div>
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='1' value='1' required name='y2' id='y2'/>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<label for="z2">Coordenada final en z (z2): </label>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+								<input type="number" min='1' value='1' required name='z2' id='z2'/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+					            <button id='enviaPeticion' type="button" class="btn btn-lg btn-success"> Enviar </button>
+					        </div>
+						</div>
+					</div>
+				</div>
+				<div class='container' id='salida' style='display:none;'>
+					<div class='page-header'> 
+						<h1>Salidas.</h1>
+					</div>
+					<div class='row'>
+						<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+							<label for="salidas">Respuesta: </label>
+						</div>
+						<div class="col-lg-3 col-md-2 col-sm-6 col-xs-6">
+							<input type="text" name='salidas' id='salidas' disabled/>
+						</div>
+					</div>
+				</div>
+				<div id="dialog" title="Notificación">
+        			<p class="caption"></p>
+    			</div>
 			</div>
-		</div>
+		</div>	
 	</div>
+	<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 </body>
 </html>
