@@ -8,6 +8,8 @@ var identCubo;
 
 
 function Cambia_entrada(){
+	//Funcion que de acuerdo al tipo de entrada seleccionado (Query/update) presenta el 
+	//formulario de ingreso de datos correspondiente. 
 	if ( $( '#tipoEntrada' ).val() == '1' ){
 		$( '#actualiza' ).show();
 		$( '#requiere' ).hide();
@@ -21,6 +23,8 @@ function Cambia_entrada(){
 }
 
 function Enviar_nCasos(){
+	//Valida la cantidad de casos T de acuerdo a las restricciones, guarda el valor si es 
+	//correcto y presenta el formulario para ingresar las caracteristicas del cubo
 	cantidadCasos = $( '#T' ).val();
 	if ( cantidadCasos >= 1  && cantidadCasos <= 50 ){
 		$( '#cubo' ).show();
@@ -35,6 +39,9 @@ function Enviar_nCasos(){
 }
 
 function Enviar_Cubo(){
+	//Valida y guarda las variables número de operaciones M y dimensiones del cubo N, las dimensiones
+	//del cubo son enviadas por POST al servidor para crear el objeto cubo, se incrementa la variable de control
+	//de cantidad de casos y se presenta el formulario de ingreso de entradas.
 	dimensionesCubo = $( '#N' ).val();
 	numeroOperaciones = $( '#M' ).val();
 	if ( dimensionesCubo < 1 || dimensionesCubo > 100 ){
@@ -92,6 +99,9 @@ function Enviar_Cubo(){
 }
 
 function Enviar_Actualizacion(){
+	// Se realiza la operacion de actualización de una celda del cubo validando previamente los datos
+	//ingresados para enviarlos al servidor y realizar la actualización. Se incrementa la variable de 
+	//control de operaciones.
 	if ( controlOperaciones == numeroOperaciones ){
 		notificacion = 1;
 		if ( controlCantCasos == cantidadCasos ){
@@ -156,6 +166,7 @@ function Enviar_Actualizacion(){
             },
             success: function(msg){
                 if(msg.mensaje == true){
+                	$( '#salida' ).hide();
                 	$("p.caption").html("Actualización realizada correctamente");
 					$('#dialog').dialog('open').css('font-weight', 'bold');
 					$( '#x' ).val('1');
@@ -170,6 +181,9 @@ function Enviar_Actualizacion(){
 }
 
 function Enviar_Requerimiento(){
+	//Realiza la operacion de consulta (Query), validando los datos ingresados de acuerdo a las
+	//restricciones, si son correctos se envian al servidor para realizar la consulta y obtener 
+	//la respuesta la cual se presenta en el formulario de Respuestas.
 	if ( controlOperaciones == numeroOperaciones ){
 		notificacion = 1;
 		if ( controlCantCasos == cantidadCasos ){
@@ -244,10 +258,8 @@ function Enviar_Requerimiento(){
             },
             success: function(msg){
                 if(msg.mensaje == true){
-                	//$( "#salida" ).prop( 'disabled',false );
                 	$( '#salidas' ).val(msg.respuesta)
            			$( '#salida' ).show();
-           			//$( "#salida" ).prop( 'disabled',true );
 					$( "html, body" ).animate({ scrollTop: $(document).height()-$(window).height() });
 					controlOperaciones = controlOperaciones + 1;     		
                 }
@@ -257,21 +269,25 @@ function Enviar_Requerimiento(){
 }
 
 function Resetear_Todo(){
+	//Resetea todo el sistema al terminar los casos de prueba T.
 	$( '#cubo' ).hide();
 	$( "#T" ).prop( 'disabled',false );
 	$( "#enviaCasos" ).prop( 'disabled',false );
 	$( "#T" ).val('1');
 	cantidadCasos = 0;
 	controlCantCasos = 0;
+	identCubo = 0;
 }
 
 function Resetear_Operaciones(){
+	//Reinicia las variables correspodientes a las operaciones y caracteristicas del cubo,
+	//al terminar el total de operaciones M para el cubo especificado.
 	controlOperaciones = 0;
 	notificacion = 0;
 	$( '#salida' ).hide();
 	$( '#actualiza' ).hide();
-	$( '#requiere' ).hide();
-	$( '#entrada' ).hide();
+	$( '#requiere' ).hide();	$( '#entrada' ).hide();
+
 	$( "#N" ).prop( 'disabled',false );
 	$( "#M" ).prop( 'disabled',false );
 	$( "#enviaCubo" ).prop( 'disabled',false );
@@ -292,6 +308,7 @@ function Resetear_Operaciones(){
 }
 
 function Iniciar_Modal(){
+	//Define el modal de Notificaciones. 
 	$("#dialog").dialog({
 	    modal: true,
 	    autoOpen: false,
@@ -307,6 +324,8 @@ function Iniciar_Modal(){
 }
 
 function Inicio_index(){
+	//Función de inicio del sistema, asigna las funciones a eventos sobre 
+	//los elemento del Dom e inicializa variables y funciones.  
 	$( 'select#tipoEntrada' ).change( Cambia_entrada );
 	$( '#enviaCasos' ).click( Enviar_nCasos );
 	$( '#enviaCubo' ).click( Enviar_Cubo );

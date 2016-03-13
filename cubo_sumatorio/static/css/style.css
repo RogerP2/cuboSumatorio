@@ -26,5 +26,5 @@ input {
 }
 
 .ui-dialog .ui-dialog-titlebar-close {
-    background: red;
+    display: none;
 }

@@ -10,10 +10,12 @@ import os
 from django.db.models import Sum
 
 def inicio(request):
+	# Vista de inicio de la aplicación.
 	return render_to_response('index.html')
 
 @csrf_exempt
 def crearCubo(request):
+	# Vista que crea el cubo obteniendo las dimensiones y guardandolas en la bd.
 	mensaje = False
 	if request.method == "POST":
 		mensaje = True
@@ -25,6 +27,7 @@ def crearCubo(request):
 
 @csrf_exempt
 def actualizarCubo(request):
+	#Vista que permite realizar la operación de actualización a una celda del cubo guarda en bd.
 	mensaje = False
 	if request.method == "POST":
 		mensaje = True
@@ -49,6 +52,7 @@ def actualizarCubo(request):
 
 @csrf_exempt
 def sumatoriaCubo(request):
+	#Vista que permite realizar la operación de consulta y posterior suma enviando el resultado al front para presentarlo al usuario.
 	mensaje = False
 	if request.method == "POST":
 		mensaje = True
