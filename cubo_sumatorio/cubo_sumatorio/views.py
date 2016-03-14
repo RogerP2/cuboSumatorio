@@ -1,3 +1,4 @@
+# -⁻- coding: UTF-8 -*-
 from django.shortcuts import render_to_response
 from django.http import JsonResponse, HttpResponse
 from django.http.response import HttpResponseRedirect 
